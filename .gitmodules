@@ -1,0 +1,3 @@
+[submodule "packages/pixel-forge"]
+	path = packages/pixel-forge
+	url = https://github.com/devints47/pixel-forge.git
