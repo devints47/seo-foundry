@@ -2,9 +2,6 @@
     "name": "seo-foundry",
     "version": "1.0.0",
     "private": false,
-    "dependencies": {
-      "pixel-forge": "*"
-    },
     "devDependencies": {
       "typescript": "^5.4.0",
       "eslint": "^8.56.0"
