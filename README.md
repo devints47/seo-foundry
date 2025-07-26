@@ -150,10 +150,11 @@ When adding new packages to this monorepo:
 ## 📋 Roadmap
 
 Planned SEO tools for future releases:
-- **meta-forge**: Automated meta tag generation and optimization
-- **schema-builder**: Structured data and JSON-LD generation
-- **sitemap-generator**: Dynamic sitemap creation and maintenance
-- **performance-optimizer**: Core Web Vitals and performance analysis
+- **aria tags**: Automated aria tag generation and optimization
+- **meta tags**: Automated meta tag generation and optimization
+- **schema builder**: Structured data and JSON-LD generation
+- **sitemap generator**: Dynamic sitemap creation and maintenance
+- **performance optimizers**: Core Web Vitals and performance analysis
 
 ---
 
