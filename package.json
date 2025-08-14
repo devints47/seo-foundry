@@ -1,12 +1,49 @@
 {
     "name": "seo-foundry",
-    "version": "1.0.0",
+    "version": "0.1.0",
+    "description": "A monorepo of tools to enhance the SEO of a web developer's website",
     "private": false,
+    "bin": {
+      "seo-foundry": "bin/seo-foundry.js"
+    },
+    "keywords": [
+      "seo",
+      "web-development",
+      "social-media",
+      "favicon",
+      "meta-tags",
+      "opengraph",
+      "twitter-cards",
+      "visual-assets",
+      "monorepo"
+    ],
+    "author": "devin@devinops.com",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/devints47/seo-foundry.git"
+    },
+    "homepage": "https://github.com/devints47/seo-foundry#readme",
+    "bugs": {
+      "url": "https://github.com/devints47/seo-foundry/issues"
+    },
+    "engines": {
+      "node": ">=18.0.0"
+    },
+    "files": [
+      "bin/**",
+      "README.md",
+      "LICENSE"
+    ],
+    "dependencies": {
+      "pixel-forge": "^1.0.4"
+    },
     "devDependencies": {
       "typescript": "^5.4.0",
       "eslint": "^8.56.0"
     },
     "scripts": {
-      "build": "pnpm -r build"
+      "build": "pnpm -r build",
+      "cli": "node bin/seo-foundry.js"
     }
   }

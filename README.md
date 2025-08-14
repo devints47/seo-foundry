@@ -1,97 +1,145 @@
 # SEO Foundry
 
-**SEO Foundry** is a modular, pluggable toolkit for automated SEO asset generation and optimization. It is designed to work with other tools such as [`pixel-forge`](https://github.com/devints47/pixel-forge), which powers social media previews, favicons, and visual assets.
+**SEO Foundry** is a monorepo of tools designed to enhance the SEO of a web developer's website. Our collection of packages helps automate the generation and optimization of SEO assets, social media previews, favicons, and other visual elements that improve your site's search engine visibility and social sharing performance.
 
 ---
 
-## 🧱 Monorepo Structure
+## 🛠 Available Tools
 
-This repo uses a **monorepo structure** with the following characteristics:
+### [`pixel-forge`](./packages/pixel-forge)
+A comprehensive generator for social media previews, favicons, and visual assets across all platforms. Perfect for:
+- **Open Graph images** for Facebook, LinkedIn, and other social platforms
+- **Twitter Cards** for enhanced tweet previews
+- **Favicons** in all required sizes and formats
+- **PWA icons** for progressive web applications
+- **Platform-specific assets** for Instagram, TikTok, and more
 
-* **Submodules** for shared tooling (e.g., `pixel-forge`)
-* **PNPM workspaces** to handle build orchestration
-* Clean separation of publishable packages
+---
+
+## 🏗 Monorepo Structure
+
+This project uses a **monorepo structure** with PNPM workspaces to manage multiple SEO-focused packages:
 
 ```
 seo-foundry/
-├── .gitmodules
 ├── packages/
-│   └── pixel-forge/        # Git submodule
-├── pnpm-workspace.yaml
-└── package.json
+│   └── pixel-forge/        # Visual asset generation
+├── pnpm-workspace.yaml     # Workspace configuration
+└── package.json           # Root package configuration
 ```
 
 ---
 
-## 🔗 Submodule Instructions
+## 🚀 Quick Start
 
-`pixel-forge` is included as a Git submodule so that it can be developed independently or as part of this toolkit.
-
-### ✅ To clone this repo with all submodules:
-
+### Install SEO Foundry (Aggregator)
 ```bash
-git clone --recurse-submodules https://github.com/devints47/seo-foundry.git
+# Global install (recommended for CLI usage)
+pnpm add -g seo-foundry
+
+# Or as a project dependency
+pnpm add seo-foundry
 ```
 
-### 🔄 To update the submodule to the latest version:
+### Install Individual Tools
+```bash
+# Typically not required—`seo-foundry` includes them. If you want a tool standalone:
+pnpm add pixel-forge
+pnpm add -g pixel-forge
+```
 
+### Generate SEO Assets (via unified CLI)
+```bash
+# Discover available tools and commands
+seo-foundry --help
+
+# Run pixel-forge subcommands through the aggregator
+seo-foundry pixel-forge generate --config ./seo-config.json
+seo-foundry pixel-forge favicon --input ./logo.png
+seo-foundry pixel-forge social --template modern --title "My Awesome Site"
+```
+
+---
+
+## 📦 Package Management
+
+This monorepo uses [`pnpm`](https://pnpm.io/) with workspaces for efficient dependency management:
+
+```bash
+# Install all dependencies
+pnpm install
+
+# Build all packages
+pnpm build
+
+# Work on a specific package
+cd packages/pixel-forge
+pnpm dev
+```
+
+---
+
+## 🧰 After Cloning (Maintainers)
+
+```bash
+# 1) Install dependencies
+pnpm install
+
+# 2) Sanity-check the aggregator CLI locally
+pnpm run cli -- --help
+pnpm run cli -- pixel-forge --version
+
+# 3) Build all packages (no-op for aggregator; useful for workspaces)
+pnpm build
+```
+
+### Optional: Work on a tool locally
+If you’re developing a tool (e.g., `pixel-forge`) locally and want the aggregator to use your local build, you have two options:
+
+1) Use NPM/Yarn/Pnpm link
 ```bash
 cd packages/pixel-forge
-git pull origin main
-cd ../..
-git add packages/pixel-forge
-git commit -m "Update pixel-forge to latest"
+pnpm install
+pnpm build
+pnpm link --global
+
+cd ../../
+pnpm link --global pixel-forge
 ```
 
----
-
-## 📦 Workspaces & Package Management
-
-This repo uses [`pnpm`](https://pnpm.io/) with workspaces. The `pnpm-workspace.yaml` file includes:
-
-```yaml
-packages:
-  - 'packages/*'
-```
-
-> Note: Since `pixel-forge` is a submodule, we **do not add** it as a `dependency` in the root `package.json`. The workspace tooling resolves it via path.
-
----
-
-## 📁 .gitignore Highlights
-
-This repo has a carefully tuned `.gitignore` to:
-
-* Exclude build artifacts, `node_modules`, IDE files
-* Track the submodule pointer (`.git` file inside `packages/pixel-forge`)
-* Avoid committing lock files for reproducibility across tools
-
-No need to worry about `.git status` showing the entire package contents — only the pointer is tracked.
-
----
-
-## 🚀 Publishing
-
-This repo is configured with:
-
+2) Temporarily point the dependency to a file/path (not for publishing)
 ```json
-"private": false
+// package.json (root)
+{
+  "dependencies": {
+    "pixel-forge": "file:packages/pixel-forge"
+  }
+}
 ```
 
-This allows for future publication of `seo-foundry` or any of its components, such as `pixel-forge`, if they are separated into their own publishable packages.
-
-You can publish individual packages by navigating to the directory and running:
-
-```bash
-cd packages/pixel-forge
-npm publish
-```
+Revert to a semver version (e.g., `^1.0.4`) before publishing `seo-foundry`.
 
 ---
 
-## 📚 Related Projects
+## ➕ Adding New Tools
 
-* [`pixel-forge`](https://github.com/devints47/pixel-forge): Image and icon generation CLI
+1) Build and publish the new tool from its own repo (ensure it has an NPM `bin` entry)
+2) Add it to `dependencies` in the root `package.json`
+3) Map it in `bin/seo-foundry.js` so `seo-foundry <tool> ...` works
+4) Update this README (Available Tools + examples)
+
+This keeps each tool independent while providing a unified UX.
+
+---
+
+## 📋 Roadmap
+
+Planned SEO tools for future releases:
+- **aria tags**: Automated aria tag generation and optimization
+- **meta tags**: Automated meta tag generation and optimization
+- **schema builder**: Structured data and JSON-LD generation
+- **sitemap generator**: Dynamic sitemap creation and maintenance
+- **performance optimizers**: Core Web Vitals and performance analysis
 
 ---
 
@@ -101,36 +149,12 @@ This project is [MIT Licensed](./LICENSE) and maintained by [Devin Singh](mailto
 
 ---
 
-## 🙋 FAQ
+## 🙋 Support
 
-### Why use a Git submodule instead of a local workspace?
-
-Submodules allow tools like `pixel-forge` to exist and be versioned independently while still being used in a broader monorepo setup.
-
-### Can I use `pixel-forge` without cloning all of `seo-foundry`?
-
-Absolutely. Just clone [`pixel-forge`](https://github.com/devints47/pixel-forge) directly and install it standalone.
+- **Issues**: [GitHub Issues](https://github.com/devints47/seo-foundry/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/devints47/seo-foundry/discussions)
+- **Email**: [devin@devinops.com](mailto:devin@devinops.com)
 
 ---
 
-## 🛠 Setup & Development
-
-```bash
-# Install dependencies
-pnpm install
-
-# Build all packages
-pnpm build
-
-# Dev on pixel-forge only
-cd packages/pixel-forge
-pnpm dev
-```
-
----
-
-For suggestions, issues, or pull requests, feel free to open a discussion or issue on GitHub.
-
----
-
-Happy building! 🚀
+**Happy building!** 🚀 Make your website SEO-ready with SEO Foundry.
